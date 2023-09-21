@@ -1,11 +1,14 @@
 package com.alura.foro.modelo;
 
+import com.alura.foro.dto.DatosRegistroCurso;
 import jakarta.persistence.*;
+import lombok.Data;
 import lombok.NoArgsConstructor;
 
 @Entity
 @Table(name = "cursos")
 @NoArgsConstructor
+@Data
 public class Curso {
 
 	@Id
@@ -20,4 +23,8 @@ public class Curso {
 	}
 
 
+	public Curso(DatosRegistroCurso datosRegistroCurso) {
+		this.nombre = datosRegistroCurso.nombre();
+		this.categoria = datosRegistroCurso.categoria();
+	}
 }
