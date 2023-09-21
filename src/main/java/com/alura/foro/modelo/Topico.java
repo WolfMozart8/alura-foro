@@ -28,12 +28,12 @@ public class Topico {
 	@Enumerated
 	private StatusTopico status = StatusTopico.NO_RESPONDIDO;
 
-	//TODO: hacer con los tipos reales
-//	@ManyToOne
-//	@JoinColumn(name = "autor_id")
-	private String autor;
-//	@OneToOne
-	private String curso;
+	@ManyToOne
+	@JoinColumn(name = "autor_id")
+	private Usuario autor;
+	@OneToOne
+	@JoinColumn(name = "curso_id")
+	private Curso curso;
 	@OneToMany(cascade = CascadeType.ALL)
 	private List<Respuesta> respuestas = new ArrayList<>();
 
@@ -46,7 +46,5 @@ public class Topico {
 	public Topico(DatosRegistroTopico datosRegistroTopico) {
 		this.titulo = datosRegistroTopico.titulo();
 		this.mensaje = datosRegistroTopico.mensaje();
-		this.autor = datosRegistroTopico.autor();
-		this.curso = datosRegistroTopico.curso();
 	}
 }
