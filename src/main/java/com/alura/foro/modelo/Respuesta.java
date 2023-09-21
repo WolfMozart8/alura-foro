@@ -1,13 +1,25 @@
-package com.alura.modelo;
+package com.alura.foro.modelo;
+
+import jakarta.persistence.*;
+import lombok.NoArgsConstructor;
 
 import java.time.LocalDateTime;
 
+@Entity
+@NoArgsConstructor
 public class Respuesta {
 
+	@Id
+	@GeneratedValue(strategy = GenerationType.IDENTITY)
 	private Long id;
 	private String mensaje;
+
+	@ManyToOne
+	@JoinColumn(name = "topico_id")
 	private Topico topico;
 	private LocalDateTime fechaCreacion = LocalDateTime.now();
+	@ManyToOne
+	@JoinColumn(name = "autor_id")
 	private Usuario autor;
 	private Boolean solucion = false;
 

@@ -5,5 +5,7 @@ CREATE TABLE topicos (
     fecha_creacion DATE NOT NULL,
     status VARCHAR(30) NOT NULL,
     autor VARCHAR(50) NOT NULL,
-    curso VARCHAR(50) NOT NULL
+    curso VARCHAR(50) NOT NULL,
+
+    PRIMARY KEY(id)
 );
