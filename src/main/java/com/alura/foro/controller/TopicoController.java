@@ -2,27 +2,36 @@ package com.alura.foro.controller;
 
 import com.alura.foro.dto.DatosRegistroTopico;
 import com.alura.foro.modelo.Topico;
-import com.alura.foro.repository.TopicoRepository;
+import com.alura.foro.services.TopicoService;
 import jakarta.transaction.Transactional;
+import jakarta.validation.Valid;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestBody;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 
 @RestController
 @RequestMapping("/topicos")
 public class TopicoController {
 
     @Autowired
-    private TopicoRepository repository;
+    private TopicoService topicoService;
+
 
     @PostMapping
     @Transactional
-    public ResponseEntity RegistrarTopico(@RequestBody DatosRegistroTopico datosRegistroTopico) {
-        repository.save(new Topico(datosRegistroTopico));
-        System.out.println(datosRegistroTopico);
-        return ResponseEntity.ok().body(datosRegistroTopico);
+    public ResponseEntity<Topico> RegistrarTopico(@RequestBody @Valid DatosRegistroTopico datosRegistroTopico) {
+        System.out.println("1: " +  datosRegistroTopico);
+
+        Topico topicoCreado = topicoService.RegistrarTopico(datosRegistroTopico);
+
+        //TODO: mejorar respuesta
+        if (topicoCreado.getAutor() == null || topicoCreado.getCurso() == null){
+            System.out.println("en badBAD");
+            return ResponseEntity.badRequest().body(topicoCreado);
+        }
+
+        System.out.println("2: " +  datosRegistroTopico);
+        return ResponseEntity.status(HttpStatus.CREATED).body(topicoCreado);
     }
 }
