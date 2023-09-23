@@ -9,6 +9,9 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
+import org.springframework.web.util.UriComponentsBuilder;
+
+import java.net.URI;
 
 @RestController
 @RequestMapping("/topicos")
@@ -20,18 +23,25 @@ public class TopicoController {
 
     @PostMapping
     @Transactional
-    public ResponseEntity<Topico> RegistrarTopico(@RequestBody @Valid DatosRegistroTopico datosRegistroTopico) {
-        System.out.println("1: " +  datosRegistroTopico);
-
+    public ResponseEntity<Topico> RegistrarTopico(@RequestBody @Valid DatosRegistroTopico datosRegistroTopico, UriComponentsBuilder uriComponentsBuilder) {
         Topico topicoCreado = topicoService.RegistrarTopico(datosRegistroTopico);
 
-        //TODO: mejorar respuesta
-        if (topicoCreado.getAutor() == null || topicoCreado.getCurso() == null){
-            System.out.println("en badBAD");
-            return ResponseEntity.badRequest().body(topicoCreado);
-        }
+        // devuelve en el header el link directo al topico creado (/topicos/id)
+        URI uri = uriComponentsBuilder.path("topicos/{id}").buildAndExpand(topicoCreado.getId()).toUri();
+        return ResponseEntity.created(uri).body(topicoCreado);
+    }
 
-        System.out.println("2: " +  datosRegistroTopico);
-        return ResponseEntity.status(HttpStatus.CREATED).body(topicoCreado);
+    @GetMapping
+    public ResponseEntity obtenerTopicos () {
+        var topicos = topicoService.obtenerTopicos();
+
+        return ResponseEntity.ok().body(topicos);
+    }
+
+    @GetMapping("/{id}")
+    public ResponseEntity obtenerTopicoPorId(@PathVariable Long id) {
+        var topico = topicoService.obtenerTopico(id);
+
+        return ResponseEntity.ok().body(topico);
     }
 }

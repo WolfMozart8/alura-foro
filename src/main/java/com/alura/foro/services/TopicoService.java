@@ -1,5 +1,6 @@
 package com.alura.foro.services;
 
+import com.alura.foro.dto.DatosObtenerTopicos;
 import com.alura.foro.dto.DatosRegistroTopico;
 import com.alura.foro.modelo.Topico;
 import com.alura.foro.repository.CursoRepository;
@@ -8,6 +9,8 @@ import com.alura.foro.repository.UsuarioRepository;
 import jakarta.validation.ValidationException;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+
+import java.util.List;
 
 @Service
 public class TopicoService {
@@ -34,5 +37,17 @@ public class TopicoService {
         topico.setAutor(usuario);
         topico.setCurso(curso);
         return topicoRepository.save(topico);
+    }
+
+    public List<DatosObtenerTopicos> obtenerTopicos() {
+        List<Topico> topicos = topicoRepository.findAll();
+
+        return topicos.stream().map(topico -> new DatosObtenerTopicos(topico)).toList();
+    }
+
+    public DatosObtenerTopicos obtenerTopico (Long id) {
+        Topico topico = topicoRepository.findById(id).get();
+
+        return new DatosObtenerTopicos(topico);
     }
 }
