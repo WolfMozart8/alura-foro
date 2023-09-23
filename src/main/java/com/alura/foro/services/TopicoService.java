@@ -1,11 +1,14 @@
 package com.alura.foro.services;
 
+import com.alura.foro.dto.DatosModificarTopico;
 import com.alura.foro.dto.DatosObtenerTopicos;
 import com.alura.foro.dto.DatosRegistroTopico;
 import com.alura.foro.modelo.Topico;
 import com.alura.foro.repository.CursoRepository;
+import com.alura.foro.repository.RespuestaRepository;
 import com.alura.foro.repository.TopicoRepository;
 import com.alura.foro.repository.UsuarioRepository;
+import jakarta.persistence.EntityNotFoundException;
 import jakarta.validation.ValidationException;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -22,6 +25,8 @@ public class TopicoService {
     private UsuarioRepository usuarioRepository;
     @Autowired
     private CursoRepository cursoRepository;
+    @Autowired
+    private RespuestaRepository respuestaRepository;
 
 
     public Topico RegistrarTopico(DatosRegistroTopico datosRegistroTopico) {
@@ -49,5 +54,24 @@ public class TopicoService {
         Topico topico = topicoRepository.findById(id).get();
 
         return new DatosObtenerTopicos(topico);
+    }
+
+    public DatosModificarTopico modificarTopico(DatosModificarTopico datosModificarTopico){
+        var topico = topicoRepository.getReferenceById(datosModificarTopico.id());
+        topico.modificar(datosModificarTopico);
+        System.out.println(topico);
+        return new DatosModificarTopico(topico);
+    }
+
+    public void eliminarTopico (Long id) {
+//        topicoRepository.deleteById(id);
+        var topico = topicoRepository.findById(id);
+
+        if (topico.isPresent()) {
+            Topico topico1 = topico.get();
+            topicoRepository.delete(topico1);
+        } else {
+            throw new EntityNotFoundException(String.format("el topico con el id %d no fue encontrado", id));
+        }
     }
 }

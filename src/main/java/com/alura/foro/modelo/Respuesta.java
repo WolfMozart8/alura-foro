@@ -17,7 +17,7 @@ public class Respuesta {
 	private Long id;
 	private String mensaje;
 
-	@OneToOne
+	@ManyToOne
 	@JoinColumn(name = "topico_id")
 	private Topico topico;
 	private LocalDateTime fechaCreacion = LocalDateTime.now();

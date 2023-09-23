@@ -1,5 +1,6 @@
 package com.alura.foro.modelo;
 
+import com.alura.foro.dto.DatosModificarTopico;
 import com.alura.foro.dto.DatosRegistroTopico;
 import jakarta.persistence.*;
 import lombok.EqualsAndHashCode;
@@ -34,17 +35,26 @@ public class Topico {
 	@OneToOne
 	@JoinColumn(name = "curso_id")
 	private Curso curso;
-	@OneToMany(cascade = CascadeType.ALL)
+	@OneToMany(mappedBy = "topico", cascade = CascadeType.ALL, fetch = FetchType.LAZY)
 	private List<Respuesta> respuestas = new ArrayList<>();
 
 	public Topico(String titulo, String mensaje, Curso curso) {
 		this.titulo = titulo;
 		this.mensaje = mensaje;
-//		this.curso = curso;
+		this.curso = curso;
 	}
 
 	public Topico(DatosRegistroTopico datosRegistroTopico) {
 		this.titulo = datosRegistroTopico.titulo();
 		this.mensaje = datosRegistroTopico.mensaje();
 	}
+
+    public void modificar(DatosModificarTopico datosModificarTopico) {
+		if (datosModificarTopico.titulo() != null){
+			this.titulo = datosModificarTopico.titulo();
+		}
+		if (datosModificarTopico.mensaje() != null){
+			this.mensaje = datosModificarTopico.mensaje();
+		}
+    }
 }

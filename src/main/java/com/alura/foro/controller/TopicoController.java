@@ -1,12 +1,12 @@
 package com.alura.foro.controller;
 
+import com.alura.foro.dto.DatosModificarTopico;
 import com.alura.foro.dto.DatosRegistroTopico;
 import com.alura.foro.modelo.Topico;
 import com.alura.foro.services.TopicoService;
 import jakarta.transaction.Transactional;
 import jakarta.validation.Valid;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.util.UriComponentsBuilder;
@@ -43,5 +43,22 @@ public class TopicoController {
         var topico = topicoService.obtenerTopico(id);
 
         return ResponseEntity.ok().body(topico);
+    }
+
+    @PutMapping
+    @Transactional
+    public ResponseEntity modificarTopico(@RequestBody @Valid DatosModificarTopico datosModificarTopico) {
+        var topicoModificado = topicoService.modificarTopico(datosModificarTopico);
+
+        return ResponseEntity.ok().body(topicoModificado);
+    }
+
+    @DeleteMapping("/{id}")
+    @Transactional
+    public ResponseEntity eliminarTopico (@PathVariable Long id){
+        topicoService.eliminarTopico(id);
+
+
+        return ResponseEntity.noContent().build();
     }
 }
