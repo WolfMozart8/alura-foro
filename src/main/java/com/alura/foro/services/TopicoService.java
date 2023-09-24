@@ -1,8 +1,6 @@
 package com.alura.foro.services;
 
-import com.alura.foro.dto.DatosModificarTopico;
-import com.alura.foro.dto.DatosObtenerTopicos;
-import com.alura.foro.dto.DatosRegistroTopico;
+import com.alura.foro.dto.*;
 import com.alura.foro.modelo.Topico;
 import com.alura.foro.repository.CursoRepository;
 import com.alura.foro.repository.RespuestaRepository;
@@ -11,6 +9,8 @@ import com.alura.foro.repository.UsuarioRepository;
 import jakarta.persistence.EntityNotFoundException;
 import jakarta.validation.ValidationException;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
@@ -27,12 +27,14 @@ public class TopicoService {
     private CursoRepository cursoRepository;
     @Autowired
     private RespuestaRepository respuestaRepository;
+    @Autowired
+    private RespuestaService respuestaService;
 
 
     public Topico RegistrarTopico(DatosRegistroTopico datosRegistroTopico) {
 
         if (topicoRepository.existsByTituloOrMensaje(datosRegistroTopico.titulo(), datosRegistroTopico.mensaje())){
-            throw new ValidationException("no duplicados");
+            throw new ValidationException("no se topicos duplicados");
         }
         //TODO: mejorar verificacion de usuario y curso
         var usuario = usuarioRepository.findById(datosRegistroTopico.autor_id()).get();
@@ -44,16 +46,17 @@ public class TopicoService {
         return topicoRepository.save(topico);
     }
 
-    public List<DatosObtenerTopicos> obtenerTopicos() {
-        List<Topico> topicos = topicoRepository.findAll();
+    public Page<DatosObtenerTopicos> obtenerTopicos(Pageable paginacion) {
+        Page<Topico> topicos = topicoRepository.findAll(paginacion);
 
-        return topicos.stream().map(topico -> new DatosObtenerTopicos(topico)).toList();
+//        return topicos.stream().map(topico -> new DatosObtenerTopicos(topico)).toList();
+        return topicoRepository.findAll(paginacion).map(DatosObtenerTopicos::new);
     }
 
-    public DatosObtenerTopicos obtenerTopico (Long id) {
+    public DatosObtenerTopico obtenerTopico (Long id) {
         Topico topico = topicoRepository.findById(id).get();
-
-        return new DatosObtenerTopicos(topico);
+        System.out.println(topico.getRespuestas().stream().toList());
+        return new DatosObtenerTopico(topico);
     }
 
     public DatosModificarTopico modificarTopico(DatosModificarTopico datosModificarTopico){
@@ -73,5 +76,12 @@ public class TopicoService {
         } else {
             throw new EntityNotFoundException(String.format("el topico con el id %d no fue encontrado", id));
         }
+    }
+
+    public DatosObtenerTopico agregarRespuesta(DatosRegistroRespuesta datosRegistroRespuesta) {
+        var respuesta = respuestaService.crearRespuesta(datosRegistroRespuesta);
+
+        var topico = topicoRepository.getReferenceById(respuesta.getTopico().getId());
+        return new DatosObtenerTopico(topico);
     }
 }

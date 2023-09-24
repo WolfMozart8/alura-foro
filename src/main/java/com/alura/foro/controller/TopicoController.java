@@ -1,12 +1,16 @@
 package com.alura.foro.controller;
 
 import com.alura.foro.dto.DatosModificarTopico;
+import com.alura.foro.dto.DatosRegistroRespuesta;
 import com.alura.foro.dto.DatosRegistroTopico;
 import com.alura.foro.modelo.Topico;
+import com.alura.foro.services.RespuestaService;
 import com.alura.foro.services.TopicoService;
 import jakarta.transaction.Transactional;
 import jakarta.validation.Valid;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.Pageable;
+import org.springframework.data.web.PageableDefault;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.util.UriComponentsBuilder;
@@ -20,6 +24,9 @@ public class TopicoController {
     @Autowired
     private TopicoService topicoService;
 
+    @Autowired
+    private RespuestaService respuestaService;
+
 
     @PostMapping
     @Transactional
@@ -32,8 +39,8 @@ public class TopicoController {
     }
 
     @GetMapping
-    public ResponseEntity obtenerTopicos () {
-        var topicos = topicoService.obtenerTopicos();
+    public ResponseEntity obtenerTopicos (@PageableDefault(size = 6) Pageable paginacion) {
+        var topicos = topicoService.obtenerTopicos(paginacion);
 
         return ResponseEntity.ok().body(topicos);
     }

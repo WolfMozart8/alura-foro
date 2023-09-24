@@ -57,4 +57,8 @@ public class Topico {
 			this.mensaje = datosModificarTopico.mensaje();
 		}
     }
+
+	public void agregarRespuesta (Respuesta respuesta) {
+		this.respuestas.add(respuesta);
+	}
 }

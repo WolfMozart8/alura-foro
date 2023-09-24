@@ -1,5 +1,6 @@
 package com.alura.foro.modelo;
 
+import com.alura.foro.dto.DatosRegistroRespuesta;
 import jakarta.persistence.*;
 import lombok.Data;
 import lombok.NoArgsConstructor;
@@ -27,5 +28,7 @@ public class Respuesta {
 	private Boolean solucion = false;
 
 
-
+	public Respuesta(DatosRegistroRespuesta datosRegistroRespuesta) {
+		this.mensaje = datosRegistroRespuesta.mensaje();
+	}
 }
