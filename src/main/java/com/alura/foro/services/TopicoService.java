@@ -62,7 +62,6 @@ public class TopicoService {
     public DatosModificarTopico modificarTopico(DatosModificarTopico datosModificarTopico){
         var topico = topicoRepository.getReferenceById(datosModificarTopico.id());
         topico.modificar(datosModificarTopico);
-        System.out.println(topico);
         return new DatosModificarTopico(topico);
     }
 
@@ -78,10 +77,4 @@ public class TopicoService {
         }
     }
 
-    public DatosObtenerTopico agregarRespuesta(DatosRegistroRespuesta datosRegistroRespuesta) {
-        var respuesta = respuestaService.crearRespuesta(datosRegistroRespuesta);
-
-        var topico = topicoRepository.getReferenceById(respuesta.getTopico().getId());
-        return new DatosObtenerTopico(topico);
-    }
 }

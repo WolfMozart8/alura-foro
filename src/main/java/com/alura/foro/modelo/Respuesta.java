@@ -1,5 +1,6 @@
 package com.alura.foro.modelo;
 
+import com.alura.foro.dto.DatosModificarRespuesta;
 import com.alura.foro.dto.DatosRegistroRespuesta;
 import jakarta.persistence.*;
 import lombok.Data;
@@ -30,5 +31,14 @@ public class Respuesta {
 
 	public Respuesta(DatosRegistroRespuesta datosRegistroRespuesta) {
 		this.mensaje = datosRegistroRespuesta.mensaje();
+	}
+
+	public void modificar(DatosModificarRespuesta datosModificarRespuesta) {
+		if (datosModificarRespuesta.mensaje() != null){
+			this.mensaje = datosModificarRespuesta.mensaje();
+		}
+		if (datosModificarRespuesta.solucion() != null){
+			this.solucion = datosModificarRespuesta.solucion();
+		}
 	}
 }
