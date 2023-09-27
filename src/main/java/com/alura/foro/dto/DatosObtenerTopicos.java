@@ -1,9 +1,11 @@
 package com.alura.foro.dto;
 
+import com.alura.foro.modelo.Respuesta;
 import com.alura.foro.modelo.StatusTopico;
 import com.alura.foro.modelo.Topico;
 
 import java.time.LocalDateTime;
+import java.util.List;
 
 public record DatosObtenerTopicos(
         Long id,
@@ -12,7 +14,8 @@ public record DatosObtenerTopicos(
         LocalDateTime fecha,
         StatusTopico statusTopico,
         String autor,
-        String curso
+        String curso,
+        List<DatosObtenerRespuesta> respuestas
 ) {
     public DatosObtenerTopicos(Topico topico) {
         this(
@@ -22,7 +25,8 @@ public record DatosObtenerTopicos(
                 topico.getFechaCreacion(),
                 topico.getStatus(),
                 topico.getAutor().getNombre(),
-                topico.getCurso().getNombre()
+                topico.getCurso().getNombre(),
+                topico.getRespuestas().stream().map(DatosObtenerRespuesta::new).toList()
         );
     }
 }
