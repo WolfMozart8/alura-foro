@@ -9,11 +9,9 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
 import org.springframework.security.core.Authentication;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestBody;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 
+//TODO: cambiar logica a service
 @RestController
 @RequestMapping("/login")
 public class AuthController {
@@ -29,7 +27,7 @@ public class AuthController {
 
         var usuario = authenticationManager.authenticate(authToken);
         var JWTtoken = tokenService.generarToken((Usuario) usuario.getPrincipal());
-        return ResponseEntity.ok(new DatosTokenJWT(JWTtoken));
+        return ResponseEntity.ok(new DatosTokenJWT(JWTtoken, ((Usuario) usuario.getPrincipal()).getId()));
 
     }
 }

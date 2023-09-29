@@ -1,7 +1,6 @@
 package com.alura.foro.controller;
 
 import com.alura.foro.dto.DatosModificarTopico;
-import com.alura.foro.dto.DatosRegistroRespuesta;
 import com.alura.foro.dto.DatosRegistroTopico;
 import com.alura.foro.modelo.Topico;
 import com.alura.foro.services.RespuestaService;
@@ -10,6 +9,7 @@ import jakarta.transaction.Transactional;
 import jakarta.validation.Valid;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Pageable;
+import org.springframework.data.domain.Sort;
 import org.springframework.data.web.PageableDefault;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
@@ -39,7 +39,7 @@ public class TopicoController {
     }
 
     @GetMapping
-    public ResponseEntity obtenerTopicos (@PageableDefault(size = 6) Pageable paginacion) {
+    public ResponseEntity obtenerTopicos (@PageableDefault(size = 6, sort = "fechaCreacion", direction = Sort.Direction.DESC) Pageable paginacion) {
         var topicos = topicoService.obtenerTopicos(paginacion);
 
         return ResponseEntity.ok().body(topicos);

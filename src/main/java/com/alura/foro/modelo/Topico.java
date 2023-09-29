@@ -56,6 +56,9 @@ public class Topico {
 		if (datosModificarTopico.mensaje() != null){
 			this.mensaje = datosModificarTopico.mensaje();
 		}
+		if (datosModificarTopico.statusTopico() != null){
+			this.status = datosModificarTopico.statusTopico();
+		}
     }
 
 	public void agregarRespuesta (Respuesta respuesta) {

@@ -8,9 +8,9 @@ import java.time.LocalDateTime;
 public record DatosModificarTopico(
         Long id,
         String titulo,
-        String mensaje
+        String mensaje,
 //        LocalDateTime fecha,
-//        StatusTopico statusTopico,
+        StatusTopico statusTopico
 //        String autor,
 //        String curso
 ) {
@@ -18,9 +18,9 @@ public record DatosModificarTopico(
         this(
                 topico.getId(),
                 topico.getTitulo(),
-                topico.getMensaje()
+                topico.getMensaje(),
 //                topico.getFechaCreacion(),
-//                topico.getStatus(),
+                topico.getStatus()
 //                topico.getAutor().getNombre(),
 //                topico.getCurso().getNombre()
         );
