@@ -34,7 +34,7 @@ public class SecurityFilter extends OncePerRequestFilter {
             System.out.println("token: " + token);
             if (nombreUsuario != null){
                 //token valido
-                var usuario = usuarioRepository.findByNombre(nombreUsuario);
+                var usuario = usuarioRepository.findByUsuario(nombreUsuario);
                 var authentication = new UsernamePasswordAuthenticationToken
                         (usuario, null, usuario.getAuthorities());
 

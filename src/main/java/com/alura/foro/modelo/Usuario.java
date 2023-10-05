@@ -7,7 +7,6 @@ import lombok.NoArgsConstructor;
 import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.authority.SimpleGrantedAuthority;
 import org.springframework.security.core.userdetails.UserDetails;
-import org.springframework.security.crypto.password.PasswordEncoder;
 
 import java.util.Collection;
 import java.util.List;
@@ -23,10 +22,12 @@ public class Usuario implements UserDetails {
 	private Long id;
 	private String nombre;
 	private String email;
+	private String usuario;
 	private String contrasena;
 
 
 	public Usuario(DatosRegistroUsuario datosRegistroUsuario) {
+		this.usuario = datosRegistroUsuario.usuario();
 		this.nombre = datosRegistroUsuario.nombre();
 		this.email = datosRegistroUsuario.email();
 
@@ -46,7 +47,7 @@ public class Usuario implements UserDetails {
 
 	@Override
 	public String getUsername() {
-		return nombre;
+		return usuario;
 	}
 
 	@Override

@@ -3,6 +3,7 @@ package com.alura.foro.controller;
 import com.alura.foro.dto.DatosRegistroUsuario;
 import com.alura.foro.modelo.Usuario;
 import com.alura.foro.repository.UsuarioRepository;
+import com.alura.foro.services.UsuarioService;
 import jakarta.transaction.Transactional;
 import jakarta.validation.Valid;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -21,17 +22,15 @@ public class UsuarioController {
     private UsuarioRepository repository;
     @Autowired
     private PasswordEncoder passwordEncoder;
+    @Autowired
+    private UsuarioService usuarioService;
 
     //TODO: cambiar logica a service
 
     @PostMapping
     @Transactional
     public ResponseEntity RegistrarUsuario(@RequestBody @Valid DatosRegistroUsuario datosRegistroUsuario) {
-        Usuario usuario = new Usuario(datosRegistroUsuario);
-        usuario.setContrasena(passwordEncoder.encode(datosRegistroUsuario.contrasena()));
-
-        repository.save(usuario);
-        System.out.println(datosRegistroUsuario);
+        usuarioService.RegistrarUsuario(datosRegistroUsuario);
         return ResponseEntity.ok().body(datosRegistroUsuario);
     }
 }

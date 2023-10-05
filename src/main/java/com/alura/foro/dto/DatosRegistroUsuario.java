@@ -7,6 +7,8 @@ public record DatosRegistroUsuario (
         @NotNull
         String nombre,
         @NotNull
+        String usuario,
+        @NotNull
         @Email
         String email,
         @NotNull

@@ -6,6 +6,7 @@ import com.auth0.jwt.algorithms.Algorithm;
 import com.auth0.jwt.exceptions.JWTCreationException;
 import com.auth0.jwt.exceptions.JWTVerificationException;
 import com.auth0.jwt.interfaces.DecodedJWT;
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Service;
 
 import java.time.Instant;
@@ -15,13 +16,12 @@ import java.time.ZoneOffset;
 @Service
 public class TokenService {
 
-    //TODO: agregar secret
-
-
+    @Value("${api.secret-jwt}")
+    private String SECRET_JWT;
 
     public String generarToken(Usuario usuario){
         try {
-            Algorithm algorithm = Algorithm.HMAC256("123455");
+            Algorithm algorithm = Algorithm.HMAC256(SECRET_JWT);
 
             return JWT.create()
                     .withIssuer("foro alura")
@@ -44,7 +44,7 @@ public class TokenService {
 
         try {
             //TODO: remplazar secret
-            Algorithm algorithm = Algorithm.HMAC256("123455");
+            Algorithm algorithm = Algorithm.HMAC256(SECRET_JWT);
 
             verifier = JWT.require(algorithm)
                     .withIssuer("foro alura")
