@@ -3,6 +3,7 @@ package com.alura.foro.controller;
 import com.alura.foro.dto.DatosObtenerCurso;
 import com.alura.foro.dto.DatosRegistroCurso;
 import com.alura.foro.services.CursoService;
+import io.swagger.v3.oas.annotations.security.SecurityRequirement;
 import jakarta.transaction.Transactional;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
@@ -10,6 +11,7 @@ import org.springframework.web.bind.annotation.*;
 
 @RestController
 @RequestMapping("/cursos")
+@SecurityRequirement(name = "bearer-key")
 public class CursoController {
 
     @Autowired

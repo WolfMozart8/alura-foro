@@ -5,6 +5,7 @@ import com.alura.foro.dto.DatosObtenerRespuesta;
 import com.alura.foro.dto.DatosRegistroRespuesta;
 import com.alura.foro.services.RespuestaService;
 import com.alura.foro.services.TopicoService;
+import io.swagger.v3.oas.annotations.security.SecurityRequirement;
 import jakarta.transaction.Transactional;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
@@ -12,6 +13,7 @@ import org.springframework.web.bind.annotation.*;
 
 @RestController
 @RequestMapping("topicos/respuestas")
+@SecurityRequirement(name = "bearer-key")
 public class RespuestaController {
 
     @Autowired

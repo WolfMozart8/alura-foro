@@ -13,6 +13,9 @@ import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.util.UriComponentsBuilder;
+
+import java.net.URI;
 
 @RestController
 @RequestMapping("/usuarios")
@@ -25,12 +28,12 @@ public class UsuarioController {
     @Autowired
     private UsuarioService usuarioService;
 
-    //TODO: cambiar logica a service
 
     @PostMapping
     @Transactional
-    public ResponseEntity RegistrarUsuario(@RequestBody @Valid DatosRegistroUsuario datosRegistroUsuario) {
-        usuarioService.RegistrarUsuario(datosRegistroUsuario);
-        return ResponseEntity.ok().body(datosRegistroUsuario);
+    public ResponseEntity RegistrarUsuario(@RequestBody @Valid DatosRegistroUsuario datosRegistroUsuario, UriComponentsBuilder uriComponentsBuilder) {
+        Usuario usuarioRegistrado = usuarioService.RegistrarUsuario(datosRegistroUsuario);
+        URI uri = uriComponentsBuilder.path("usuarios/{id}").buildAndExpand(usuarioRegistrado.getId()).toUri();
+        return ResponseEntity.created(uri).body(datosRegistroUsuario);
     }
 }

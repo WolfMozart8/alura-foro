@@ -26,7 +26,7 @@ public class TokenService {
             return JWT.create()
                     .withIssuer("foro alura")
                     // TODO: ojo
-                    .withSubject(usuario.getNombre())
+                    .withSubject(usuario.getUsername())
                     .withClaim("id", usuario.getId())
                     .withExpiresAt(generarFechaExp(2))
                     .sign(algorithm);
@@ -41,9 +41,7 @@ public class TokenService {
         }
 
         DecodedJWT verifier = null;
-
         try {
-            //TODO: remplazar secret
             Algorithm algorithm = Algorithm.HMAC256(SECRET_JWT);
 
             verifier = JWT.require(algorithm)
