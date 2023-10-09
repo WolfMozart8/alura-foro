@@ -2,6 +2,7 @@ package com.alura.foro.dto;
 
 import jakarta.validation.constraints.Email;
 import jakarta.validation.constraints.NotNull;
+import jakarta.validation.constraints.Pattern;
 
 public record DatosRegistroUsuario (
         @NotNull
@@ -12,6 +13,7 @@ public record DatosRegistroUsuario (
         @Email
         String email,
         @NotNull
+        @Pattern(regexp = "^[a-zA-Z0-9]{6}.*$") // min 6 charachters
         String contrasena
 ) {
 }

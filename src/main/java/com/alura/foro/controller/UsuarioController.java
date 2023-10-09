@@ -1,5 +1,6 @@
 package com.alura.foro.controller;
 
+import com.alura.foro.dto.DatosObtenerUsuario;
 import com.alura.foro.dto.DatosRegistroUsuario;
 import com.alura.foro.modelo.Usuario;
 import com.alura.foro.repository.UsuarioRepository;
@@ -9,10 +10,7 @@ import jakarta.validation.Valid;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.crypto.password.PasswordEncoder;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestBody;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 import org.springframework.web.util.UriComponentsBuilder;
 
 import java.net.URI;
@@ -35,5 +33,13 @@ public class UsuarioController {
         Usuario usuarioRegistrado = usuarioService.RegistrarUsuario(datosRegistroUsuario);
         URI uri = uriComponentsBuilder.path("usuarios/{id}").buildAndExpand(usuarioRegistrado.getId()).toUri();
         return ResponseEntity.created(uri).body(datosRegistroUsuario);
+    }
+
+    @GetMapping("/{id}")
+    public ResponseEntity obtenerDatosUsuario(@PathVariable Long id){
+        Usuario usuario = usuarioService.obtenerDatosUsuario(id);
+        DatosObtenerUsuario datos = new DatosObtenerUsuario(usuario);
+
+        return ResponseEntity.ok().body(datos);
     }
 }

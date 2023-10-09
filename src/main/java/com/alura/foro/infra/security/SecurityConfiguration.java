@@ -27,16 +27,13 @@ public class SecurityConfiguration {
                 .sessionManagement(session -> session.sessionCreationPolicy(SessionCreationPolicy.STATELESS))
                 .cors().and()
                 .authorizeHttpRequests
-                        (req -> req.requestMatchers(HttpMethod.GET, "/topicos", "/topicos/**", "/cursos")
+                        (req -> req.requestMatchers(HttpMethod.GET, "/topicos", "/topicos/**", "/cursos", "/usuarios/**")
                                 .permitAll()
                                 .requestMatchers(HttpMethod.GET, "/swagger-ui.html", "/v3/api-docs/**", "/swagger-ui/**")
                                 .permitAll()
                                 .requestMatchers(HttpMethod.POST, "/login", "/usuarios")
                                 .permitAll()
                                 .anyRequest().authenticated())
-//                        (req -> req.requestMatchers(HttpMethod.POST, "/login").permitAll()
-//                                .requestMatchers(HttpMethod.POST, "/usuarios").permitAll()
-//                        .anyRequest().authenticated())
                 .addFilterBefore(securityFilter, UsernamePasswordAuthenticationFilter.class)
                 .build();
     }

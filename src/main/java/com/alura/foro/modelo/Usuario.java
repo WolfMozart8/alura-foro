@@ -24,6 +24,10 @@ public class Usuario implements UserDetails {
 	private String email;
 	private String usuario;
 	private String contrasena;
+	@OneToMany(fetch = FetchType.LAZY)
+	private List<Topico> topicos;
+	@OneToMany(fetch = FetchType.LAZY)
+	private List<Respuesta> respuestas;
 
 
 	public Usuario(DatosRegistroUsuario datosRegistroUsuario) {
