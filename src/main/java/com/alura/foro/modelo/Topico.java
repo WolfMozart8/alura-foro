@@ -35,7 +35,7 @@ public class Topico {
 	@OneToOne
 	@JoinColumn(name = "curso_id")
 	private Curso curso;
-	@OneToMany(mappedBy = "topico", cascade = CascadeType.ALL, fetch = FetchType.LAZY)
+	@OneToMany( cascade = CascadeType.ALL, fetch = FetchType.LAZY, mappedBy = "topico")
 	private List<Respuesta> respuestas = new ArrayList<>();
 
 	public Topico(String titulo, String mensaje, Curso curso) {

@@ -19,11 +19,11 @@ public class Respuesta {
 	private Long id;
 	private String mensaje;
 
-	@ManyToOne
+	@ManyToOne(fetch = FetchType.LAZY)
 	@JoinColumn(name = "topico_id")
 	private Topico topico;
 	private LocalDateTime fechaCreacion = LocalDateTime.now();
-	@OneToOne
+	@OneToOne(fetch = FetchType.LAZY)
 	@JoinColumn(name = "autor_id")
 	private Usuario autor;
 	private Boolean solucion = false;

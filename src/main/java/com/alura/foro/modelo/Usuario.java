@@ -4,6 +4,7 @@ import com.alura.foro.dto.DatosRegistroUsuario;
 import jakarta.persistence.*;
 import lombok.Data;
 import lombok.NoArgsConstructor;
+import lombok.ToString;
 import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.authority.SimpleGrantedAuthority;
 import org.springframework.security.core.userdetails.UserDetails;
@@ -24,9 +25,10 @@ public class Usuario implements UserDetails {
 	private String email;
 	private String usuario;
 	private String contrasena;
-	@OneToMany(fetch = FetchType.LAZY)
+	@OneToMany(fetch = FetchType.LAZY, mappedBy = "autor")
 	private List<Topico> topicos;
-	@OneToMany(fetch = FetchType.LAZY)
+	@OneToMany(fetch = FetchType.LAZY, mappedBy = "autor")
+	@ToString.Exclude
 	private List<Respuesta> respuestas;
 
 

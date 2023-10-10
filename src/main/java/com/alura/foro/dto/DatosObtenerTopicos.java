@@ -14,6 +14,7 @@ public record DatosObtenerTopicos(
         LocalDateTime fecha,
         StatusTopico statusTopico,
         String autor,
+        Long autorId,
         String curso,
         List<DatosObtenerRespuesta> respuestas
 ) {
@@ -25,6 +26,7 @@ public record DatosObtenerTopicos(
                 topico.getFechaCreacion(),
                 topico.getStatus(),
                 topico.getAutor().getNombre(),
+                topico.getAutor().getId(),
                 topico.getCurso().getNombre(),
                 topico.getRespuestas().stream().map(DatosObtenerRespuesta::new).toList()
         );
